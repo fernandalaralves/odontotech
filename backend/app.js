@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const authRoutes = require("./routes/authRoutes");
 const pacienteRoutes = require("./routes/pacienteRoutes");
+// Importe outras rotas conforme necessário
 
 const app = express();
 
@@ -10,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rotas
+app.use("/api/auth", authRoutes);
 app.use("/api/pacientes", pacienteRoutes);
 // app.use('/api/dentistas', dentistaRoutes);
 // app.use('/api/consultas', consultaRoutes);
@@ -22,7 +25,10 @@ app.get("/api/health", (req, res) => {
 // Tratamento de erros
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ success: false, message: "Erro interno do servidor" });
+  res.status(500).json({
+    success: false,
+    message: "Erro interno do servidor",
+  });
 });
 
 module.exports = app;

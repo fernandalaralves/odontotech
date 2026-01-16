@@ -4,15 +4,15 @@
 
 Sistema web para gestão de clínicas odontológicas com arquitetura em camadas, permitindo gerenciar pacientes, dentistas, consultas, prontuários e pagamentos.
 
-## 👥 Autores
+## Autores
 
-- **Fernanda Lara:**
-- **IFCE**
+- **Fernanda Lara**
+- **Análise e Desenvolvimento de Sistemas**
 - **Janeiro/2026**
 
 ---
 
-## 🏗️ Arquitetura do Sistema
+## Arquitetura do Sistema
 
 ### Arquitetura em Camadas
 
@@ -44,7 +44,7 @@ A arquitetura em camadas foi escolhida por:
 
 ---
 
-## 📦 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Backend
 
@@ -67,7 +67,7 @@ A arquitetura em camadas foi escolhida por:
 
 ---
 
-## 📊 Modelagem do Sistema
+## Modelagem do Sistema
 
 ### Entidades
 
@@ -103,7 +103,7 @@ A arquitetura em camadas foi escolhida por:
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### Pré-requisitos
 
@@ -160,7 +160,7 @@ Acesse: `http://localhost:8080/pages/dashboard.html`
 
 ---
 
-## 📁 Estrutura de Pastas
+## Estrutura de Pastas
 
 ```
 clinica-odontologica/
@@ -182,7 +182,7 @@ clinica-odontologica/
 
 ---
 
-## 🔗 Endpoints da API
+## Endpoints da API
 
 ### Pacientes
 
