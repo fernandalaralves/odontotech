@@ -1,20 +1,17 @@
-// ============================================
-// backend/routes/pacienteRoutes.js
-// ============================================
-
 const express = require("express");
 const router = express.Router();
 const pacienteController = require("../controllers/pacienteController");
-const authMiddleware = require("../middlewares/authMiddleware");
 
-// Todas as rotas requerem autenticação
-router.use(authMiddleware);
-
-router.get("/", pacienteController.listarTodos);
-router.get("/search", pacienteController.buscar);
-router.get("/:id", pacienteController.buscarPorId);
-router.post("/", pacienteController.criar);
-router.put("/:id", pacienteController.atualizar);
-router.delete("/:id", pacienteController.excluir);
+router.get("/", (req, res) => pacienteController.listar(req, res));
+router.get("/:id", (req, res) => pacienteController.buscar(req, res));
+router.post("/", (req, res) => pacienteController.criar(req, res));
+router.put("/:id", (req, res) => pacienteController.atualizar(req, res));
+router.delete("/:id", (req, res) => pacienteController.excluir(req, res));
 
 module.exports = router;
+
+// ============================================
+// backend/routes/dentistaRoutes.js (igual paciente)
+// backend/routes/consultaRoutes.js (igual paciente)
+// Siga a mesma estrutura para dentistas e consultas
+// ============================================

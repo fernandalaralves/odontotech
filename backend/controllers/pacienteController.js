@@ -1,85 +1,48 @@
-// ============================================
-// backend/controllers/pacienteController.js
-// ============================================
-
 const pacienteService = require("../services/pacienteService");
 
 class PacienteController {
-  async listarTodos(req, res, next) {
+  async listar(req, res) {
     try {
       const pacientes = await pacienteService.listarTodos();
-      res.json({
-        success: true,
-        data: pacientes,
-      });
+      res.json({ success: true, data: pacientes });
     } catch (error) {
-      next(error);
+      res.status(500).json({ success: false, message: error.message });
     }
   }
 
-  async buscarPorId(req, res, next) {
+  async buscar(req, res) {
     try {
       const paciente = await pacienteService.buscarPorId(req.params.id);
-      res.json({
-        success: true,
-        data: paciente,
-      });
+      res.json({ success: true, data: paciente });
     } catch (error) {
-      next(error);
+      res.status(404).json({ success: false, message: error.message });
     }
   }
 
-  async criar(req, res, next) {
+  async criar(req, res) {
     try {
-      const novoPaciente = await pacienteService.criar(req.body);
-      res.status(201).json({
-        success: true,
-        message: "Paciente cadastrado com sucesso",
-        data: novoPaciente,
-      });
+      const paciente = await pacienteService.criar(req.body);
+      res.status(201).json({ success: true, data: paciente });
     } catch (error) {
-      next(error);
+      res.status(400).json({ success: false, message: error.message });
     }
   }
 
-  async atualizar(req, res, next) {
+  async atualizar(req, res) {
     try {
-      const pacienteAtualizado = await pacienteService.atualizar(
-        req.params.id,
-        req.body
-      );
-      res.json({
-        success: true,
-        message: "Paciente atualizado com sucesso",
-        data: pacienteAtualizado,
-      });
+      const paciente = await pacienteService.atualizar(req.params.id, req.body);
+      res.json({ success: true, data: paciente });
     } catch (error) {
-      next(error);
+      res.status(400).json({ success: false, message: error.message });
     }
   }
 
-  async excluir(req, res, next) {
+  async excluir(req, res) {
     try {
       await pacienteService.excluir(req.params.id);
-      res.json({
-        success: true,
-        message: "Paciente excluído com sucesso",
-      });
+      res.json({ success: true, message: "Paciente excluído" });
     } catch (error) {
-      next(error);
-    }
-  }
-
-  async buscar(req, res, next) {
-    try {
-      const termo = req.query.q;
-      const pacientes = await pacienteService.buscar(termo);
-      res.json({
-        success: true,
-        data: pacientes,
-      });
-    } catch (error) {
-      next(error);
+      res.status(400).json({ success: false, message: error.message });
     }
   }
 }

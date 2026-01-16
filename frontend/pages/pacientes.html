@@ -1,6 +1,3 @@
-<!-- ============================================ -->
-<!-- frontend/pages/pacientes.html -->
-<!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -11,67 +8,62 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../assets/css/styles.css" />
   </head>
   <body>
-    <div id="navbar"></div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Sistema Odontológico</span>
+        <div class="d-flex gap-3">
+          <a href="dashboard.html" class="btn btn-outline-light btn-sm"
+            >Dashboard</a
+          >
+          <a href="pacientes.html" class="btn btn-light btn-sm">Pacientes</a>
+          <a href="dentistas.html" class="btn btn-outline-light btn-sm"
+            >Dentistas</a
+          >
+          <a href="consultas.html" class="btn btn-outline-light btn-sm"
+            >Consultas</a
+          >
+        </div>
+      </div>
+    </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div
-          id="sidebar"
-          class="col-md-2 bg-dark text-white min-vh-100 p-0"
-        ></div>
+    <div class="container mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestão de Pacientes</h2>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#modalPaciente"
+          onclick="limparFormulario()"
+        >
+          + Novo Paciente
+        </button>
+      </div>
 
-        <main class="col-md-10 p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Gestão de Pacientes</h2>
-            <button class="btn btn-primary" onclick="abrirModalNovo()">
-              Novo Paciente
-            </button>
-          </div>
-
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="campoBusca"
-                  placeholder="Buscar por nome, CPF ou telefone"
-                />
-                <button
-                  class="btn btn-outline-secondary"
-                  onclick="buscarPacientes()"
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <table class="table table-hover" id="tabelaPacientes">
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </main>
+      <!-- Tabela -->
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-hover" id="tabelaPacientes">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
+    <!-- Modal -->
     <div class="modal fade" id="modalPaciente" tabindex="-1">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalTitulo">Novo Paciente</h5>
@@ -82,46 +74,53 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="row g-3">
-              <div class="col-md-12">
-                <label class="form-label">Nome Completo</label>
-                <input type="text" class="form-control" id="nome" />
-              </div>
+            <input type="hidden" id="pacienteId" />
 
-              <div class="col-md-6">
-                <label class="form-label">CPF</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cpf"
-                  placeholder="000.000.000-00"
-                />
-              </div>
+            <div class="mb-3">
+              <label class="form-label">Nome</label>
+              <input type="text" class="form-control" id="nome" required />
+            </div>
 
-              <div class="col-md-6">
-                <label class="form-label">Data de Nascimento</label>
-                <input type="date" class="form-control" id="data_nascimento" />
-              </div>
+            <div class="mb-3">
+              <label class="form-label">CPF</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cpf"
+                placeholder="000.000.000-00"
+                required
+              />
+            </div>
 
-              <div class="col-md-6">
-                <label class="form-label">Telefone</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="telefone"
-                  placeholder="(00) 00000-0000"
-                />
-              </div>
+            <div class="mb-3">
+              <label class="form-label">Data de Nascimento</label>
+              <input
+                type="date"
+                class="form-control"
+                id="data_nascimento"
+                required
+              />
+            </div>
 
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" />
-              </div>
+            <div class="mb-3">
+              <label class="form-label">Telefone</label>
+              <input
+                type="text"
+                class="form-control"
+                id="telefone"
+                placeholder="(00) 00000-0000"
+                required
+              />
+            </div>
 
-              <div class="col-md-12">
-                <label class="form-label">Endereço</label>
-                <input type="text" class="form-control" id="endereco" />
-              </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Endereço</label>
+              <input type="text" class="form-control" id="endereco" />
             </div>
           </div>
           <div class="modal-footer">
@@ -144,95 +143,49 @@
       </div>
     </div>
 
-    <script src="../services/api.js"></script>
-    <script src="../services/authService.js"></script>
-    <script src="../components/navbar.js"></script>
-    <script src="../components/sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      let pacienteEditando = null;
+      const API_URL = "http://localhost:3000/api";
       let modal;
 
-      document.addEventListener("DOMContentLoaded", async function () {
-        if (!AuthService.verificarAutenticacao()) {
-          window.location.href = "../index.html";
-          return;
-        }
-
-        carregarComponentes();
-        await carregarPacientes();
-
+      document.addEventListener("DOMContentLoaded", function () {
         modal = new bootstrap.Modal(document.getElementById("modalPaciente"));
+        carregarPacientes();
       });
-
-      function carregarComponentes() {
-        document.getElementById("navbar").innerHTML = Navbar.render();
-        document.getElementById("sidebar").innerHTML =
-          Sidebar.render("pacientes");
-      }
 
       async function carregarPacientes() {
         try {
-          const response = await API.get("/pacientes");
-          preencherTabela(response.data);
+          const response = await fetch(`${API_URL}/pacientes`);
+          const data = await response.json();
+
+          const tbody = document.querySelector("#tabelaPacientes tbody");
+          tbody.innerHTML = "";
+
+          data.data.forEach((p) => {
+            tbody.innerHTML += `
+            <tr>
+              <td>${p.nome}</td>
+              <td>${p.cpf}</td>
+              <td>${p.telefone}</td>
+              <td>${p.email || "-"}</td>
+              <td>
+                <button class="btn btn-sm btn-warning" onclick="editarPaciente(${
+                  p.id
+                })">Editar</button>
+                <button class="btn btn-sm btn-danger" onclick="excluirPaciente(${
+                  p.id
+                })">Excluir</button>
+              </td>
+            </tr>
+          `;
+          });
         } catch (error) {
           alert("Erro ao carregar pacientes");
         }
       }
 
-      function preencherTabela(pacientes) {
-        const tbody = document.querySelector("#tabelaPacientes tbody");
-        tbody.innerHTML = "";
-
-        pacientes.forEach((paciente) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-          <td>${paciente.nome}</td>
-          <td>${paciente.cpf}</td>
-          <td>${paciente.telefone}</td>
-          <td>${paciente.email || "-"}</td>
-          <td>
-            <button class="btn btn-sm btn-warning" onclick="editarPaciente(${
-              paciente.id
-            })">Editar</button>
-            <button class="btn btn-sm btn-danger" onclick="excluirPaciente(${
-              paciente.id
-            })">Excluir</button>
-          </td>
-        `;
-          tbody.appendChild(tr);
-        });
-      }
-
-      function abrirModalNovo() {
-        pacienteEditando = null;
-        document.getElementById("modalTitulo").textContent = "Novo Paciente";
-        limparFormulario();
-        modal.show();
-      }
-
-      async function editarPaciente(id) {
-        try {
-          const response = await API.get(`/pacientes/${id}`);
-          pacienteEditando = response.data;
-
-          document.getElementById("modalTitulo").textContent =
-            "Editar Paciente";
-          document.getElementById("nome").value = pacienteEditando.nome;
-          document.getElementById("cpf").value = pacienteEditando.cpf;
-          document.getElementById("data_nascimento").value =
-            pacienteEditando.data_nascimento;
-          document.getElementById("telefone").value = pacienteEditando.telefone;
-          document.getElementById("email").value = pacienteEditando.email || "";
-          document.getElementById("endereco").value =
-            pacienteEditando.endereco || "";
-
-          modal.show();
-        } catch (error) {
-          alert("Erro ao carregar dados do paciente");
-        }
-      }
-
       async function salvarPaciente() {
+        const id = document.getElementById("pacienteId").value;
         const dados = {
           nome: document.getElementById("nome").value,
           cpf: document.getElementById("cpf").value,
@@ -243,55 +196,79 @@
         };
 
         try {
-          if (pacienteEditando) {
-            await API.put(`/pacientes/${pacienteEditando.id}`, dados);
-            alert("Paciente atualizado com sucesso!");
-          } else {
-            await API.post("/pacientes", dados);
-            alert("Paciente cadastrado com sucesso!");
-          }
+          const url = id
+            ? `${API_URL}/pacientes/${id}`
+            : `${API_URL}/pacientes`;
+          const method = id ? "PUT" : "POST";
 
-          modal.hide();
-          await carregarPacientes();
-          limparFormulario();
+          const response = await fetch(url, {
+            method: method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
+          });
+
+          if (response.ok) {
+            alert("Paciente salvo com sucesso!");
+            modal.hide();
+            limparFormulario();
+            carregarPacientes();
+          } else {
+            alert("Erro ao salvar paciente");
+          }
         } catch (error) {
-          alert(error.message || "Erro ao salvar paciente");
+          alert("Erro ao salvar paciente");
+        }
+      }
+
+      async function editarPaciente(id) {
+        try {
+          const response = await fetch(`${API_URL}/pacientes/${id}`);
+          const data = await response.json();
+          const p = data.data;
+
+          document.getElementById("pacienteId").value = p.id;
+          document.getElementById("nome").value = p.nome;
+          document.getElementById("cpf").value = p.cpf;
+          document.getElementById("data_nascimento").value = p.data_nascimento;
+          document.getElementById("telefone").value = p.telefone;
+          document.getElementById("email").value = p.email || "";
+          document.getElementById("endereco").value = p.endereco || "";
+
+          document.getElementById("modalTitulo").textContent =
+            "Editar Paciente";
+          modal.show();
+        } catch (error) {
+          alert("Erro ao carregar paciente");
         }
       }
 
       async function excluirPaciente(id) {
-        if (!confirm("Tem certeza que deseja excluir este paciente?")) return;
+        if (!confirm("Deseja realmente excluir este paciente?")) return;
 
         try {
-          await API.delete(`/pacientes/${id}`);
-          alert("Paciente excluído com sucesso!");
-          await carregarPacientes();
+          const response = await fetch(`${API_URL}/pacientes/${id}`, {
+            method: "DELETE",
+          });
+
+          if (response.ok) {
+            alert("Paciente excluído com sucesso!");
+            carregarPacientes();
+          }
         } catch (error) {
           alert("Erro ao excluir paciente");
         }
       }
 
       function limparFormulario() {
+        document.getElementById("pacienteId").value = "";
         document.getElementById("nome").value = "";
         document.getElementById("cpf").value = "";
         document.getElementById("data_nascimento").value = "";
         document.getElementById("telefone").value = "";
         document.getElementById("email").value = "";
         document.getElementById("endereco").value = "";
-      }
-
-      async function buscarPacientes() {
-        const termo = document.getElementById("campoBusca").value;
-
-        try {
-          const response = await API.get(`/pacientes/search?q=${termo}`);
-          preencherTabela(response.data);
-        } catch (error) {
-          alert("Erro ao buscar pacientes");
-        }
+        document.getElementById("modalTitulo").textContent = "Novo Paciente";
       }
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

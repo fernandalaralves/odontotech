@@ -1,7 +1,3 @@
-// ============================================
-// frontend/assets/js/main.js - Funções globais
-// ============================================
-
 function formatarCPF(cpf) {
   return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
