@@ -10,8 +10,14 @@ class UsuarioRepository {
 
   async create(usuario) {
     const [result] = await db.query(
-      "INSERT INTO usuarios (username, senha, nome, tipo) VALUES (?, ?, ?, ?)",
-      [usuario.username, usuario.senha, usuario.nome, usuario.tipo]
+      "INSERT INTO usuarios (username, senha, nome, tipo, email) VALUES (?, ?, ?, ?, ?)",
+      [
+        usuario.username,
+        usuario.senha,
+        usuario.nome,
+        usuario.tipo,
+        usuario.email,
+      ],
     );
     return this.findById(result.insertId);
   }
@@ -23,7 +29,7 @@ class UsuarioRepository {
 
   async findAll() {
     const [rows] = await db.query(
-      "SELECT id, username, nome, tipo, data_criacao FROM usuarios"
+      "SELECT id, username, nome, tipo, email, data_criacao FROM usuarios",
     );
     return rows;
   }
