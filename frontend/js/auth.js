@@ -1,5 +1,4 @@
-// Adicione este script em TODAS as páginas protegidas
-
+//script para páginas protegidas
 // Verificar se o usuário está logado
 function verificarAutenticacao() {
   const usuario = localStorage.getItem("usuario");

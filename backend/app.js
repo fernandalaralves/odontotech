@@ -1,21 +1,45 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
-const authRoutes = require("./routes/authRoutes");
-const pacienteRoutes = require("./routes/pacienteRoutes");
-// Importe outras rotas conforme necessário
+import authRoutes from "./routes/authRoutes.js";
+import pacienteRoutes from "./routes/pacienteRoutes.js";
+import consultaRoutes from "./routes/consultaRoutes.js";
+import dentistaRoutes from "./routes/dentistaRoutes.js";
+
+dotenv.config();
 
 const app = express();
+
+//  __dirname no ES Module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
 
-// Rotas
+//  SERVIR FRONTEND (RAIZ DO PROJETO)
+const publicPath = path.resolve(__dirname, "..");
+console.log("Frontend servido em:", publicPath);
+
+app.use(express.static(publicPath));
+
+//  LOGIN PADRÃO
+app.get("/", (req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
+});
+
+// APIs
 app.use("/api/auth", authRoutes);
 app.use("/api/pacientes", pacienteRoutes);
-// app.use('/api/dentistas', dentistaRoutes);
-// app.use('/api/consultas', consultaRoutes);
+app.use("/api/consultas", consultaRoutes);
+app.use("/api/dentistas", dentistaRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK", message: "API funcionando" });
+});
 
 // Rota de teste
 app.get("/api/health", (req, res) => {
@@ -31,4 +55,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
+export default app;

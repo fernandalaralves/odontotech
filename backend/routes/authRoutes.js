@@ -1,9 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const authController = require('../controllers/authController');
 
-router.post('/login', (req, res) => authController.login(req, res));
-router.post('/cadastro', (req, res) => authController.cadastro(req, res));
-router.post('/logout', (req, res) => authController.logout(req, res));
+router.post("/login", (req, res) => {
+  res.json({ success: true, message: "Login route" });
+});
+
+router.post("/cadastro", (req, res) => {
+  res.json({ success: true, message: "Cadastro route" });
+});
 
 module.exports = router;

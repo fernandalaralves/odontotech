@@ -1,6 +1,6 @@
 # Sistema de Gestão de Clínica Odontológica
 
-##  Descrição
+## Descrição
 
 Sistema web para gestão de clínicas odontológicas com arquitetura em camadas, permitindo gerenciar pacientes, dentistas, consultas, prontuários e pagamentos.
 
@@ -113,8 +113,8 @@ A arquitetura em camadas foi escolhida por:
 ### Passo 1: Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/clinica-odontologica.git
-cd clinica-odontologica
+git clone https://github.com/fernandalaralves/odontotech.git
+cd odontotech
 ```
 
 ### Passo 2: Configurar o Banco de Dados
@@ -163,7 +163,7 @@ Acesse: `http://localhost:8080/pages/dashboard.html`
 ## Estrutura de Pastas
 
 ```
-clinica-odontologica/
+odontotech/
 ├── database/
 │   └── schema.sql
 ├── backend/
@@ -176,6 +176,7 @@ clinica-odontologica/
 │   ├── server.js
 │   └── package.json
 ├── frontend/
+|   |_js/
 │   └── pages/
 └── README.md
 ```

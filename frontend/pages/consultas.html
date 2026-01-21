@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Consultas - Sistema Odontológico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Sistema Odontológico</span>
+        <a href="index.html" class="btn btn-light btn-sm">Sair</a>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h3 class="mb-4">Agendamento de Consultas</h3>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Paciente *</label>
+              <input type="text" id="paciente" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Dentista *</label>
+              <input type="text" id="dentista" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Data *</label>
+              <input type="date" id="data" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Hora *</label>
+              <input type="time" id="hora" class="form-control" />
+            </div>
+
+            <div class="col-md-8 d-flex align-items-end">
+              <button class="btn btn-primary w-100" onclick="agendarConsulta()">
+                Agendar Consulta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h5>Consultas Agendadas</h5>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Dentista</th>
+            <th>Data</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody id="listaConsultas"></tbody>
+      </table>
+    </div>
+
+    <script>
+      const API = "http://localhost:3000/api/consultas";
+
+      async function agendarConsulta() {
+        const paciente = document.getElementById("paciente").value.trim();
+        const dentista = document.getElementById("dentista").value.trim();
+        const data = document.getElementById("data").value;
+        const hora = document.getElementById("hora").value;
+
+        if (!paciente || !dentista || !data || !hora) {
+          alert("Preencha todos os campos.");
+          return;
+        }
+
+        await fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paciente, dentista, data, hora }),
+        });
+
+        limparFormulario();
+        carregarConsultas();
+      }
+
+      function limparFormulario() {
+        document.getElementById("paciente").value = "";
+        document.getElementById("dentista").value = "";
+        document.getElementById("data").value = "";
+        document.getElementById("hora").value = "";
+      }
+
+      async function carregarConsultas() {
+        const response = await fetch(API);
+        const consultas = await response.json();
+
+        const tabela = document.getElementById("listaConsultas");
+        tabela.innerHTML = "";
+
+        consultas.forEach((c) => {
+          tabela.innerHTML += `
+            <tr>
+              <td>${c.paciente}</td>
+              <td>${c.dentista}</td>
+              <td>${c.data}</td>
+              <td>${c.hora}</td>
+            </tr>
+          `;
+        });
+      }
+
+      window.onload = carregarConsultas;
+    </script>
+  </body>
+</html>
