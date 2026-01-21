@@ -1,6 +1,6 @@
 # Sistema de Gestão de Clínica Odontológica
 
-## 📋 Descrição
+##  Descrição
 
 Sistema web para gestão de clínicas odontológicas com arquitetura em camadas, permitindo gerenciar pacientes, dentistas, consultas, prontuários e pagamentos.
 
