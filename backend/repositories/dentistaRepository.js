@@ -1,12 +1,13 @@
-const bd = require("../db");
+import db from "../config/database.js";
 
 class DentistaRepository {
   async findById(id) {
-    const [rows] = await bd.query("SELECT * FROM dentistas WHERE id = ?", [id]);
+    const [rows] = await db.query("SELECT * FROM dentistas WHERE id = ?", [id]);
     return rows[0];
   }
+
   async create(dentista) {
-    const [result] = await bd.query(
+    const [result] = await db.query(
       "INSERT INTO dentistas (nome, cro, especialidade, telefone, email) VALUES (?, ?, ?, ?, ?)",
       [
         dentista.nome,
@@ -18,12 +19,13 @@ class DentistaRepository {
     );
     return this.findById(result.insertId);
   }
+
   async findAll() {
-    const [rows] = await bd.query(
-      "SELECT id, nome, cro, especialidade, telefone, email, data_criacao FROM dentistas",
-    );
+    const [rows] = await db.query("SELECT * FROM dentistas");
     return rows;
   }
 }
 
-module.exports = new DentistaRepository();
+export default new DentistaRepository();
+
+//PADRAO DE TODOS OS REPOSITORIES
