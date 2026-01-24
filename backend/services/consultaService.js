@@ -1,13 +1,15 @@
-const consultaRepository = require("../repositories/consultaRepository");
-
-async function listarConsultas() {
-  return await consultaRepository.findAll();
+import usuarioRepository from "../repositories/usuarioRepository.js";
+class ConsultaService {
+  async agendarConsulta(consulta) {
+    // Lógica para agendar uma consulta
+    return await usuarioRepository.create(consulta);
+  }
+  async listarConsultas() {
+    // Lógica para listar consultas
+    return await usuarioRepository.findAll();
+  }
 }
-async function criarConsulta(consulta) {
-  return await consultaRepository.create(consulta);
-}
 
-module.exports = {
-  listarConsultas,
-  criarConsulta,
-};
+export default new ConsultaService();
+
+//SERASSE????
