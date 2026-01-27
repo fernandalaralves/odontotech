@@ -1,26 +1,25 @@
-const db = require("../config/database");
-class PacienteRepository {
-  async findById(id) {
-    const [rows] = await db.query("SELECT * FROM pacientes WHERE id = ?", [id]);
-    return rows[0];
-  }
-  async create(paciente) {
-    const [result] = await db.query(
-      "INSERT INTO pacientes (nome, data_nascimento, telefone, email) VALUES (?, ?, ?, ?)",
-      [
-        paciente.nome,
-        paciente.data_nascimento,
-        paciente.telefone,
-        paciente.email,
-      ],
-    );
-    return this.findById(result.insertId);
-  }
+import db from "../config/database.js";
+
+class ConsultaRepository {
   async findAll() {
-    const [rows] = await db.query(
-      "SELECT id, nome, data_nascimento, telefone, email, data_criacao FROM pacientes",
-    );
+    const [rows] = await db.query("SELECT * FROM consultas");
     return rows;
   }
+
+  async create(consulta) {
+    const [result] = await db.query(
+      "INSERT INTO consultas (paciente_id, dentista_id, data_consulta, hora_consulta, status, observacoes) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        consulta.paciente_id,
+        consulta.dentista_id,
+        consulta.data_consulta,
+        consulta.hora_consulta,
+        consulta.status,
+        consulta.observacoes,
+      ],
+    );
+    return { id: result.insertId, ...consulta };
+  }
 }
-module.exports = new PacienteRepository();
+
+export default new ConsultaRepository();

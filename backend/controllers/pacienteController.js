@@ -1,14 +1,9 @@
-const pacienteService = require("../services/pacienteService");
+import pacienteService from "../services/pacienteService.js";
 
-async function listarPacientes(req, res) {
-  const pacientes = await pacienteService.listarPacientes();
-  res.json(pacientes);
+export async function listarPacientes(req, res) {
+  res.json(await pacienteService.listarPacientes());
 }
-async function criarPaciente(req, res) {
-  const paciente = await pacienteService.criarPaciente(req.body);
-  res.status(201).json(paciente);
+
+export async function criarPaciente(req, res) {
+  res.status(201).json(await pacienteService.criarPaciente(req.body));
 }
-module.exports = {
-  listarPacientes,
-  criarPaciente,
-};

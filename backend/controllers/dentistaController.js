@@ -1,16 +1,9 @@
-const dentistaService = require("../services/dentistaService");
+import dentistaService from "../services/dentistaService.js";
 
-async function listarDentistas(req, res) {
-  const dentistas = await dentistaService.listarDentistas();
-  res.json(dentistas);
+export async function listarDentistas(req, res) {
+  res.json(await dentistaService.listarDentistas());
 }
 
-async function criarDentista(req, res) {
-  const dentista = await dentistaService.criarDentista(req.body);
-  res.status(201).json(dentista);
+export async function criarDentista(req, res) {
+  res.status(201).json(await dentistaService.criarDentista(req.body));
 }
-
-module.exports = {
-  listarDentistas,
-  criarDentista,
-};

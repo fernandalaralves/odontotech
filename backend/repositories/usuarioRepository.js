@@ -1,4 +1,4 @@
-const db = require("../config/database");
+import db from "../config/database.js";
 
 class UsuarioRepository {
   async findByUsername(username) {
@@ -19,20 +19,8 @@ class UsuarioRepository {
         usuario.email,
       ],
     );
-    return this.findById(result.insertId);
-  }
-
-  async findById(id) {
-    const [rows] = await db.query("SELECT * FROM usuarios WHERE id = ?", [id]);
-    return rows[0];
-  }
-
-  async findAll() {
-    const [rows] = await db.query(
-      "SELECT id, username, nome, tipo, email, data_criacao FROM usuarios",
-    );
-    return rows;
+    return { id: result.insertId, ...usuario };
   }
 }
 
-module.exports = new UsuarioRepository();
+export default new UsuarioRepository();

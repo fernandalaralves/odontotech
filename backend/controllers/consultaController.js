@@ -1,15 +1,9 @@
-const consultaService = require("../services/consultaService");
-async function listarConsultas(req, res) {
-  const consultas = await consultaService.listarConsultas();
-  res.json(consultas);
+import consultaService from "../services/consultaService.js";
+
+export async function listarConsultas(req, res) {
+  res.json(await consultaService.listarConsultas());
 }
 
-async function criarConsulta(req, res) {
-  const consulta = await consultaService.criarConsulta(req.body);
-  res.status(201).json(consulta);
+export async function criarConsulta(req, res) {
+  res.status(201).json(await consultaService.criarConsulta(req.body));
 }
-
-module.exports = {
-  listarConsultas,
-  criarConsulta,
-};

@@ -1,13 +1,15 @@
 import express from "express";
-import consultaController from "../controllers/consultaController.js";
+import {
+  listarConsultas,
+  criarConsulta,
+} from "../controllers/consultaController.js";
 
 const router = express.Router();
-router.post("/", (req, res) => consultaController.agendarConsulta(req, res));
-router.get("/:id", (req, res) => consultaController.obterConsulta(req, res));
-router.put("/:id", (req, res) =>
-  consultaController.atualizarConsulta(req, res),
-);
-router.delete("/:id", (req, res) =>
-  consultaController.cancelarConsulta(req, res),
-);
+
+// GET /api/consultas
+router.get("/", listarConsultas);
+
+// POST /api/consultas
+router.post("/", criarConsulta);
+
 export default router;

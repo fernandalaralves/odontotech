@@ -1,13 +1,22 @@
-const pacienteRepository = require("../repositories/pacienteRepository");
+import pacienteRepository from "../repositories/pacienteRepository.js";
 
-async function listarPacientes() {
-  return await pacienteRepository.findAll();
-}
-async function criarPaciente(paciente) {
-  return await pacienteRepository.create(paciente);
+class PacienteService {
+  async listarPacientes() {
+    return await pacienteRepository.findAll();
+  }
+
+  async criarPaciente(paciente) {
+    if (
+      !paciente.nome ||
+      !paciente.cpf ||
+      !paciente.data_nascimento ||
+      !paciente.telefone
+    ) {
+      throw new Error("Campos obrigatórios do paciente não preenchidos");
+    }
+
+    return await pacienteRepository.create(paciente);
+  }
 }
 
-module.exports = {
-  listarPacientes,
-  criarPaciente,
-};
+export default new PacienteService();
