@@ -12,16 +12,23 @@
   </head>
 
   <body class="bg-light">
+    <!-- Navbar -->
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Sistema Odontológico</span>
-        <a href="index.html" class="btn btn-light btn-sm">Sair</a>
+        <div class="d-flex gap-2">
+          <a href="dashboard.html" class="btn btn-light btn-sm">Dashboard</a>
+          <button class="btn btn-outline-light btn-sm" onclick="logout()">
+            Sair
+          </button>
+        </div>
       </div>
     </nav>
 
     <div class="container mt-4">
       <h3 class="mb-4">Agendamento de Consultas</h3>
 
+      <!-- Formulário -->
       <div class="card mb-4">
         <div class="card-body">
           <div class="row g-3">
@@ -54,6 +61,7 @@
         </div>
       </div>
 
+      <!-- Tabela -->
       <h5>Consultas Agendadas</h5>
 
       <table class="table table-striped">
@@ -65,12 +73,31 @@
             <th>Hora</th>
           </tr>
         </thead>
-        <tbody id="listaConsultas"></tbody>
+        <tbody id="listaConsultas">
+          <tr>
+            <td colspan="4" class="text-center text-muted">Carregando...</td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
     <script>
       const API = "http://localhost:3000/api/consultas";
+
+      // 🔐 Verificar autenticação
+      function verificarAutenticacao() {
+        const usuario = localStorage.getItem("usuario");
+        if (!usuario) {
+          window.location.href = "../index.html";
+        }
+      }
+
+      function logout() {
+        if (confirm("Deseja realmente sair?")) {
+          localStorage.removeItem("usuario");
+          window.location.href = "../index.html";
+        }
+      }
 
       async function agendarConsulta() {
         const paciente = document.getElementById("paciente").value.trim();
@@ -83,14 +110,25 @@
           return;
         }
 
-        await fetch(API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paciente, dentista, data, hora }),
-        });
+        try {
+          await fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              paciente,
+              dentista,
+              data_consulta: data,
+              hora_consulta: hora,
+              status: "agendada",
+            }),
+          });
 
-        limparFormulario();
-        carregarConsultas();
+          limparFormulario();
+          carregarConsultas();
+        } catch (error) {
+          console.error("Erro ao agendar consulta:", error);
+          alert("Erro ao agendar consulta.");
+        }
       }
 
       function limparFormulario() {
@@ -101,25 +139,43 @@
       }
 
       async function carregarConsultas() {
-        const response = await fetch(API);
-        const consultas = await response.json();
+        try {
+          const response = await fetch(API);
+          const consultas = await response.json();
 
-        const tabela = document.getElementById("listaConsultas");
-        tabela.innerHTML = "";
+          const tabela = document.getElementById("listaConsultas");
+          tabela.innerHTML = "";
 
-        consultas.forEach((c) => {
-          tabela.innerHTML += `
-            <tr>
-              <td>${c.paciente}</td>
-              <td>${c.dentista}</td>
-              <td>${c.data}</td>
-              <td>${c.hora}</td>
-            </tr>
-          `;
-        });
+          if (consultas.length === 0) {
+            tabela.innerHTML = `
+              <tr>
+                <td colspan="4" class="text-center text-muted">
+                  Nenhuma consulta agendada
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          consultas.forEach((c) => {
+            tabela.innerHTML += `
+              <tr>
+                <td>${c.paciente}</td>
+                <td>${c.dentista}</td>
+                <td>${new Date(c.data_consulta).toLocaleDateString("pt-BR")}</td>
+                <td>${c.hora_consulta}</td>
+              </tr>
+            `;
+          });
+        } catch (error) {
+          console.error("Erro ao carregar consultas:", error);
+        }
       }
 
-      window.onload = carregarConsultas;
+      document.addEventListener("DOMContentLoaded", () => {
+        verificarAutenticacao();
+        carregarConsultas();
+      });
     </script>
   </body>
 </html>

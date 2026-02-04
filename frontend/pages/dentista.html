@@ -12,16 +12,30 @@
   </head>
 
   <body class="bg-light">
+    <!-- Navbar -->
     <nav class="navbar navbar-dark bg-primary">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">Sistema Odontológico</span>
-        <a href="index.html" class="btn btn-light btn-sm">Sair</a>
+        <div class="d-flex gap-2">
+          <a href="dashboard.html" class="btn btn-outline-light btn-sm"
+            >Dashboard</a
+          >
+          <a href="pacientes.html" class="btn btn-outline-light btn-sm"
+            >Pacientes</a
+          >
+          <a href="dentistas.html" class="btn btn-light btn-sm">Dentistas</a>
+          <a href="consultas.html" class="btn btn-outline-light btn-sm"
+            >Consultas</a
+          >
+        </div>
       </div>
     </nav>
 
+    <!-- Conteúdo -->
     <div class="container mt-4">
       <h3 class="mb-4">Cadastro de Dentistas</h3>
 
+      <!-- Formulário -->
       <div class="card mb-4">
         <div class="card-body">
           <div class="row g-3">
@@ -57,6 +71,7 @@
         </div>
       </div>
 
+      <!-- Tabela -->
       <h5>Lista de Dentistas</h5>
 
       <table class="table table-striped">
@@ -73,7 +88,9 @@
     </div>
 
     <script>
-      const API = "http://localhost:3000/api/dentistas";
+      const API_URL = "http://localhost:3000/api";
+
+      document.addEventListener("DOMContentLoaded", carregarDentistas);
 
       async function cadastrarDentista() {
         const nome = document.getElementById("nome").value.trim();
@@ -88,14 +105,47 @@
           return;
         }
 
-        await fetch(API, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nome, especialidade, cro, telefone }),
-        });
+        try {
+          const response = await fetch(`${API_URL}/dentistas`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nome, especialidade, cro, telefone }),
+          });
 
-        limparFormulario();
-        carregarDentistas();
+          if (response.ok) {
+            alert("Dentista cadastrado com sucesso!");
+            limparFormulario();
+            carregarDentistas();
+          } else {
+            alert("Erro ao cadastrar dentista");
+          }
+        } catch (error) {
+          alert("Erro ao conectar com o servidor");
+        }
+      }
+
+      async function carregarDentistas() {
+        try {
+          const response = await fetch(`${API_URL}/dentistas`);
+          const data = await response.json();
+
+          const dentistas = data.data || data;
+          const tabela = document.getElementById("listaDentistas");
+          tabela.innerHTML = "";
+
+          dentistas.forEach((d) => {
+            tabela.innerHTML += `
+              <tr>
+                <td>${d.nome}</td>
+                <td>${d.especialidade}</td>
+                <td>${d.cro}</td>
+                <td>${d.telefone || "-"}</td>
+              </tr>
+            `;
+          });
+        } catch (error) {
+          alert("Erro ao carregar dentistas");
+        }
       }
 
       function limparFormulario() {
@@ -104,27 +154,6 @@
         document.getElementById("cro").value = "";
         document.getElementById("telefone").value = "";
       }
-
-      async function carregarDentistas() {
-        const response = await fetch(API);
-        const dentistas = await response.json();
-
-        const tabela = document.getElementById("listaDentistas");
-        tabela.innerHTML = "";
-
-        dentistas.forEach((d) => {
-          tabela.innerHTML += `
-            <tr>
-              <td>${d.nome}</td>
-              <td>${d.especialidade}</td>
-              <td>${d.cro}</td>
-              <td>${d.telefone || "-"}</td>
-            </tr>
-          `;
-        });
-      }
-
-      window.onload = carregarDentistas;
     </script>
   </body>
 </html>
