@@ -1,7 +1,3 @@
-// ============================================
-// SCRIPT DE AUTENTICAÇÃO
-// ============================================
-
 // Verificar se o usuário está logado
 function verificarAutenticacao() {
   const usuario = localStorage.getItem("usuario");
